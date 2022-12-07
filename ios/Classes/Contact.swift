@@ -41,7 +41,10 @@ struct Contact {
         groups = (m["groups"] as! [[String: Any]]).map { Group(fromMap: $0) }
     }
 
-    init(fromContact c: CNContact) {
+    init(
+        fromContact c: CNContact,
+        includeNotesOnIos13AndAbove: Bool
+    ) {
         id = c.identifier
         displayName = CNContactFormatter.string(
             from: c,
