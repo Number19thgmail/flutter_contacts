@@ -95,11 +95,11 @@ public enum FlutterContacts {
             id: id,
             withProperties: withProperties,
             withThumbnail: withThumbnail,
-            withPhoto: withPhoto,
+            withPhoto: withPhoto, 
             returnUnifiedContacts: returnUnifiedContacts,
             includeNotesOnIos13AndAbove: includeNotesOnIos13AndAbove
         )
-        var contacts = contactsInternal.map { Contact(fromContact: $0) }
+        var contacts = contactsInternal.map { Contact(fromContact: $0, includeNotesOnIos13AndAbove: includeNotesOnIos13AndAbove) }
         if withGroups {
             let groups = fetchGroups(store)
             let groupMemberships = fetchGroupMemberships(store, groups)
@@ -197,7 +197,7 @@ public enum FlutterContacts {
         let saveRequest = CNSaveRequest()
         saveRequest.add(contact, toContainerWithIdentifier: nil)
         try CNContactStore().execute(saveRequest)
-        return Contact(fromContact: contact).toMap()
+        return Contact(fromContact: contact, includeNotesOnIos13AndAbove: includeNotesOnIos13AndAbove).toMap()
     }
 
     // Updates an existing contact in the database.
@@ -278,7 +278,7 @@ public enum FlutterContacts {
                 }
             }
 
-            return Contact(fromContact: contact).toMap()
+            return Contact(fromContact: contact, includeNotesOnIos13AndAbove: includeNotesOnIos13AndAbove).toMap()
         } else {
             return nil
         }
